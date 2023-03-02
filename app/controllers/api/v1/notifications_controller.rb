@@ -2,8 +2,8 @@ module Api
   module V1
     class NotificationsController < BaseController
       def create
-        puts "sending alert to Slack" if spam_report?
-        render json: { slack_message: slack_payload }, status: :created
+        response_body = spam_report? ? { slack_message: slack_messge_string } : {}
+        render json: response_body, status: :created
       end
 
       private
@@ -28,7 +28,7 @@ module Api
         notification_request_type == "SpamNotification"
       end
 
-      def slack_payload
+      def slack_messge_string
         "SPAM EMAIL ---- #{to_email_address} - #{description}"
       end
     end

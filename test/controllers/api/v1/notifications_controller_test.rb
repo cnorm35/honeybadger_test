@@ -32,9 +32,9 @@ module Api
         }
       end
 
-      test "create_returns_204" do
+      test "create_returns_200" do
         post api_v1_notifications_path, params: {}, as: :json
-        assert_response :created
+        assert_response :success
       end
 
       test "create_notification_returns_json" do
@@ -50,6 +50,9 @@ module Api
       end
 
       test "bounce_does_not_send_notification" do
+        post api_v1_notifications_path, params: @no_alert_payload, as: :json
+        json_response = JSON.parse(response.body)
+        assert_equal json_response, {}.as_json
       end
     end
   end

@@ -1,7 +1,7 @@
 module Api
   module V1
     class NotificationsController < BaseController
-      def new
+      def create
       end
     end
   end

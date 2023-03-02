@@ -10,6 +10,12 @@ module Api
         post api_v1_notifications_path, params: {}, as: :json
         assert_response :success
       end
+
+      test "new_returns_the_correct_response" do
+        post api_v1_notifications_path, params: {}, as: :json
+        json_response = JSON.parse(response.body)
+        assert_equal Hash.new, json_response
+      end
     end
   end
 end

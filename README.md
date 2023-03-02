@@ -1,24 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Hello Honey Badger Crew!
 
-Things you may want to cover:
+This application _should_ be live and have a single endpoint at:
 
-* Ruby version
+POST https://63ddv.hatchboxapp.com/api/v1/notifications
 
-* System dependencies
+### Authentication and Authorization
+Include an Authorization header with an active api key with your request
 
-* Configuration
+```
+{ "Authorization" => "YouShouldHireCody123" }
+```
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+`YouShouldHireCody123` is an active and valid api key

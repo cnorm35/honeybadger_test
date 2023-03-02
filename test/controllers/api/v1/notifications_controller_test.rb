@@ -16,6 +16,7 @@ module Api
           "From": "notifications@honeybadger.io",
           "BouncedAt": "2023-02-27T21:41:30Z",
         }
+        @alert_payload_slack_message = "SPAM EMAIL ---- #{@alert_payload[:Email]} - #{@alert_payload[:Description]}"
 
         @no_alert_payload = {
           "RecordType": "Bounce",
@@ -31,18 +32,24 @@ module Api
         }
       end
 
-      test "create_returns_200" do
+      test "create_returns_204" do
         post api_v1_notifications_path, params: {}, as: :json
         assert_response :created
       end
 
-      test "new_returns_the_correct_response" do
+      test "create_notification_returns_json" do
         post api_v1_notifications_path, params: {}, as: :json
         json_response = JSON.parse(response.body)
         assert_equal Hash.new, json_response
       end
 
-      test "new" do
+      test "spam_report_sends_new_notification" do
+        post api_v1_notifications_path, params: @alert_payload, as: :json
+        json_response = JSON.parse(response.body)
+        assert_equal json_response, { slack_message: @alert_payload_slack_message }.as_json
+      end
+
+      test "bounce_does_not_send_notification" do
       end
     end
   end

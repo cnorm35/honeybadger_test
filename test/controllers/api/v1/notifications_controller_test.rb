@@ -57,7 +57,17 @@ module Api
         json_response = JSON.parse(response.body)
         assert_equal json_response, {}.as_json
       end
-    end
+
+      test "returns_401_on_invalid_api_key" do
+        post api_v1_notifications_path, headers: { "Authorization" => "Fake" }, params: @no_alert_payload, as: :json
+        assert_response :unauthorized
+      end
+
+      test "returns_401_on_inactive_api_key" do
+        post api_v1_notifications_path, headers: { "Authorization" => @inactive_api_key }, params: @no_alert_payload, as: :json
+        assert_response :unauthorized
+      end
+    end 
   end
 end
 

@@ -16,7 +16,6 @@ module Api
       def api_key
         @_api_key ||= ApiKey.active.find_by(value: token_from_header)
       end
-
     end
   end
 end

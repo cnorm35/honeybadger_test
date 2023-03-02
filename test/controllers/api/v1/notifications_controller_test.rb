@@ -6,8 +6,10 @@ module Api
       setup do
       end
 
-      test "new" do
+      test "new_returns_200" do
+        post api_v1_notifications_path, params: {}, as: :json
       end
+    end
   end
 end
 

@@ -8,6 +8,7 @@ module Api
 
       test "new_returns_200" do
         post api_v1_notifications_path, params: {}, as: :json
+        assert_response :success
       end
     end
   end

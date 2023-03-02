@@ -30,27 +30,30 @@ module Api
           "From": "notifications@honeybadger.io",
           "BouncedAt": "2019-11-05T16:33:54.9070259Z",
         }
+        @active_api_key = api_keys(:active).value
+        @inactive_api_key = api_keys(:inactive).value
+        @valid_auth_headers = { "Authorization" => @active_api_key }
       end
 
       test "create_returns_200" do
-        post api_v1_notifications_path, params: {}, as: :json
+        post api_v1_notifications_path, headers: @valid_auth_headers, params: {}, as: :json
         assert_response :success
       end
 
       test "create_notification_returns_json" do
-        post api_v1_notifications_path, params: {}, as: :json
+        post api_v1_notifications_path, headers: @valid_auth_headers, params: {}, as: :json
         json_response = JSON.parse(response.body)
         assert_equal Hash.new, json_response
       end
 
       test "spam_report_sends_new_notification" do
-        post api_v1_notifications_path, params: @alert_payload, as: :json
+        post api_v1_notifications_path, headers: @valid_auth_headers, params: @alert_payload, as: :json
         json_response = JSON.parse(response.body)
         assert_equal json_response, { slack_message: @alert_payload_slack_message }.as_json
       end
 
       test "bounce_does_not_send_notification" do
-        post api_v1_notifications_path, params: @no_alert_payload, as: :json
+        post api_v1_notifications_path, headers: @valid_auth_headers, params: @no_alert_payload, as: :json
         json_response = JSON.parse(response.body)
         assert_equal json_response, {}.as_json
       end
